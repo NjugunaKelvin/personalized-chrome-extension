@@ -11,108 +11,195 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Background Pattern Layer -->
-  <div class="bg-layer" aria-hidden="true"></div>
+  <!-- Background Layers -->
+  <div class="bg-layer" id="bgLayer" aria-hidden="true"></div>
+  <div class="bg-dim-overlay" id="bgDimOverlay" aria-hidden="true"></div>
 
-  <!-- Main Container -->
-  <main class="newtab-container">
+  <!-- Spatial Application Wrapper (recodes into spatial depth when drawer opens) -->
+  <div class="spatial-app-wrapper" id="appWrapper">
+    <!-- Main Editorial Container -->
+    <main class="newtab-container" id="mainContainer">
 
-    <!-- Top Navigation / Header -->
-    <header class="top-bar">
-      <div class="brand-mark" id="topBrandMark" title="VIN Personal Chrome Environment">
-        <span class="brand-text">VIN</span>
-      </div>
-      <button class="settings-trigger" id="settingsBtn" aria-label="Open Environment Settings" title="Settings">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      <!-- Top Navigation / Header -->
+      <header class="top-bar">
+        <div class="brand-mark" id="topBrandMark" title="VIN Personal Chrome Environment">
+          <span class="brand-text">VIN</span>
+        </div>
+
+        <div class="top-actions">
+          <!-- Command Bar Trigger (Cmd+K) -->
+          <button class="icon-trigger tactile-btn" id="cmdBarBtn" aria-label="Open Command Search (Cmd+K)" title="Search (Cmd+K)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+
+          <!-- Focus Mode Toggle (F) -->
+          <button class="icon-trigger tactile-btn" id="focusModeBtn" aria-label="Toggle Focus Mode (Press F)" title="Focus Mode (F)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+            </svg>
+          </button>
+
+          <!-- Settings Drawer Trigger -->
+          <button class="icon-trigger tactile-btn" id="settingsBtn" aria-label="Open Environment Settings" title="Settings">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Editorial Central Core -->
+      <section class="editorial-core">
+        <!-- Greeting -->
+        <h1 class="greeting-text" id="greetingText">Good morning, Vin.</h1>
+
+        <!-- Date -->
+        <p class="date-text" id="dateText">WEDNESDAY · AUGUST 12</p>
+
+        <!-- Digital Clock -->
+        <div class="clock-container" id="clockContainer">
+          <time class="clock-display" id="clockDisplay">17:42</time>
+          <span class="clock-seconds" id="clockSeconds">00</span>
+        </div>
+
+        <!-- Quote Statement -->
+        <blockquote class="quote-container" id="quoteContainer">
+          <p class="quote-text" id="quoteText">LIFE WAS MEANT TO BE LIVED.</p>
+        </blockquote>
+      </section>
+
+      <!-- Bottom Signature Bar -->
+      <footer class="bottom-bar">
+        <div class="signature-mark" id="bottomSignature">
+          <span class="sig-name">VIN</span>
+          <span class="sig-dot">·</span>
+          <span class="sig-environment">PERSONAL ENVIRONMENT</span>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Floating Command Bar Modal (Cmd+K / Ctrl+K Omnibox Search) -->
+  <div class="command-modal" id="cmdModal" aria-hidden="true">
+    <div class="command-overlay" id="cmdOverlay"></div>
+    <div class="command-box">
+      <div class="command-input-wrapper">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="cmd-icon">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-      </button>
-    </header>
-
-    <!-- Editorial Central Core -->
-    <section class="editorial-core">
-      <!-- Greeting -->
-      <h1 class="greeting-text" id="greetingText">Good morning, Vin.</h1>
-
-      <!-- Date -->
-      <p class="date-text" id="dateText">WEDNESDAY · AUGUST 12</p>
-
-      <!-- Digital Clock -->
-      <div class="clock-container" id="clockContainer">
-        <time class="clock-display" id="clockDisplay">17:42</time>
-        <span class="clock-seconds" id="clockSeconds">00</span>
+        <input type="text" id="cmdInput" class="cmd-input" placeholder="Search the web or type a URL..." autofocus autocomplete="off">
+        <span class="cmd-shortcut">ESC</span>
       </div>
+    </div>
+  </div>
 
-      <!-- Quote Statement -->
-      <blockquote class="quote-container" id="quoteContainer">
-        <p class="quote-text" id="quoteText">LIFE WAS MEANT TO BE LIVED.</p>
-      </blockquote>
-    </section>
-
-    <!-- Bottom Signature Bar -->
-    <footer class="bottom-bar">
-      <div class="signature-mark" id="bottomSignature">
-        <span class="sig-name">VIN</span>
-        <span class="sig-dot">·</span>
-        <span class="sig-environment">PERSONAL ENVIRONMENT</span>
-      </div>
-    </footer>
-
-  </main>
-
-  <!-- Embedded Quick Settings Drawer / Overlay -->
+  <!-- Settings & Scratchpad Spatial Drawer -->
   <div class="settings-drawer" id="settingsDrawer" aria-hidden="true">
     <div class="drawer-overlay" id="drawerOverlay"></div>
     <div class="drawer-panel">
+      <!-- Drawer Navigation Tabs -->
       <header class="drawer-header">
-        <div>
-          <h2>VIN</h2>
-          <p class="drawer-subtitle">Chrome environment preferences</p>
+        <div class="drawer-tabs">
+          <button class="drawer-tab-btn active" id="tabPreferencesBtn">Preferences</button>
+          <button class="drawer-tab-btn" id="tabScratchpadBtn">Scratchpad</button>
         </div>
-        <button class="drawer-close" id="drawerCloseBtn" aria-label="Close Settings">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <button class="drawer-close tactile-btn" id="drawerCloseBtn" aria-label="Close Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
       </header>
 
-      <div class="drawer-content">
+      <!-- Panel 1: Preferences -->
+      <div class="drawer-content" id="panelPreferences">
         <!-- Appearance Theme -->
         <section class="setting-group">
           <label class="setting-label">Appearance</label>
           <div class="segmented-control" id="themeSegmented">
-            <button data-value="light" class="segment-btn">Light</button>
-            <button data-value="dark" class="segment-btn">Dark</button>
-            <button data-value="auto" class="segment-btn active">System</button>
+            <button data-value="light" class="segment-btn tactile-btn">Light</button>
+            <button data-value="dark" class="segment-btn tactile-btn">Dark</button>
+            <button data-value="auto" class="segment-btn tactile-btn active">System</button>
           </div>
         </section>
 
-        <!-- Background Options -->
+        <!-- Background Wallpaper Selector -->
         <section class="setting-group">
-          <label class="setting-label">Background</label>
+          <label class="setting-label">Background & Wallpapers</label>
+
+          <!-- Pattern & Photo Presets -->
           <div class="bg-options-grid" id="bgOptionsGrid">
-            <button data-bg="warm-paper" class="bg-option-btn active">
+            <button data-bg="warm-paper" class="bg-option-btn tactile-btn active">
               <span class="bg-preview bg-preview-paper"></span>
               <span class="bg-title">Warm Paper</span>
             </button>
-            <button data-bg="quiet-stone" class="bg-option-btn">
+            <button data-bg="quiet-stone" class="bg-option-btn tactile-btn">
               <span class="bg-preview bg-preview-stone"></span>
               <span class="bg-title">Quiet Stone</span>
             </button>
-            <button data-bg="soft-graphite" class="bg-option-btn">
+            <button data-bg="soft-graphite" class="bg-option-btn tactile-btn">
               <span class="bg-preview bg-preview-graphite"></span>
               <span class="bg-title">Soft Graphite</span>
             </button>
-            <button data-bg="architectural" class="bg-option-btn">
+            <button data-bg="architectural" class="bg-option-btn tactile-btn">
               <span class="bg-preview bg-preview-architectural"></span>
               <span class="bg-title">Architectural</span>
             </button>
-            <button data-bg="pure" class="bg-option-btn">
+
+            <!-- Photo Wallpapers -->
+            <button data-bg="arch-1" class="bg-option-btn tactile-btn">
+              <span class="bg-preview bg-preview-photo" style="background-image: url('../backgrounds/arch-1.png');"></span>
+              <span class="bg-title">Concrete</span>
+            </button>
+            <button data-bg="city-1" class="bg-option-btn tactile-btn">
+              <span class="bg-preview bg-preview-photo" style="background-image: url('../backgrounds/city-1.png');"></span>
+              <span class="bg-title">Misty City</span>
+            </button>
+            <button data-bg="arch-2" class="bg-option-btn tactile-btn">
+              <span class="bg-preview bg-preview-photo" style="background-image: url('../backgrounds/arch-2.png');"></span>
+              <span class="bg-title">Shadows</span>
+            </button>
+            <button data-bg="pure" class="bg-option-btn tactile-btn">
               <span class="bg-preview bg-preview-pure"></span>
               <span class="bg-title">Pure Blank</span>
             </button>
+          </div>
+
+          <!-- Custom Image Uploader Dropzone -->
+          <div class="custom-upload-box" id="uploadBox">
+            <input type="file" id="customBgInput" accept="image/*" class="file-input-hidden">
+            <label for="customBgInput" class="upload-label tactile-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <span>Upload Personal Wallpaper Image</span>
+            </label>
+            <button id="clearCustomBgBtn" class="clear-bg-btn tactile-btn" style="display: none;">Remove Custom Image</button>
+          </div>
+
+          <!-- Dim Slider -->
+          <div class="slider-row">
+            <div class="slider-header">
+              <span class="slider-title">Dim Overlay</span>
+              <span class="slider-val" id="dimValText">15%</span>
+            </div>
+            <input type="range" id="dimRange" min="0" max="80" value="15" class="ios-slider">
+          </div>
+
+          <!-- Blur Slider -->
+          <div class="slider-row">
+            <div class="slider-header">
+              <span class="slider-title">Backdrop Blur</span>
+              <span class="slider-val" id="blurValText">0px</span>
+            </div>
+            <input type="range" id="blurRange" min="0" max="24" value="0" class="ios-slider">
           </div>
         </section>
 
@@ -129,8 +216,8 @@
           <div class="setting-row">
             <span class="setting-title">Time Format</span>
             <div class="segmented-control sm" id="clockFormatSegmented">
-              <button data-value="12" class="segment-btn">12h</button>
-              <button data-value="24" class="segment-btn active">24h</button>
+              <button data-value="12" class="segment-btn tactile-btn">12h</button>
+              <button data-value="24" class="segment-btn tactile-btn active">24h</button>
             </div>
           </div>
 
@@ -165,25 +252,25 @@
             <label for="quoteTextInput" class="field-label">Custom Quote</label>
             <input type="text" id="quoteTextInput" class="text-input" value="Life was meant to be lived." placeholder="Enter your personal phrase...">
             <div class="preset-pills" id="presetPills">
-              <button class="preset-pill" data-quote="Life was meant to be lived.">Life was meant to be lived.</button>
-              <button class="preset-pill" data-quote="Go be alive.">Go be alive.</button>
-              <button class="preset-pill" data-quote="Some moments change everything.">Some moments change everything.</button>
+              <button class="preset-pill tactile-btn" data-quote="Life was meant to be lived.">Life was meant to be lived.</button>
+              <button class="preset-pill tactile-btn" data-quote="Go be alive.">Go be alive.</button>
+              <button class="preset-pill tactile-btn" data-quote="Some moments change everything.">Some moments change everything.</button>
             </div>
           </div>
         </section>
 
-        <!-- Personal Identity -->
+        <!-- Identity -->
         <section class="setting-group">
           <label class="setting-label">Identity</label>
           <div class="setting-field">
             <label for="userNameInput" class="field-label">Full Name</label>
             <input type="text" id="userNameInput" class="text-input" value="Njuguna Kelvin">
           </div>
-          <div class="setting-field" style="margin-top: 10px;">
+          <div class="setting-field" style="margin-top: 8px;">
             <label for="shortNameInput" class="field-label">Short Name / Monogram</label>
             <input type="text" id="shortNameInput" class="text-input" value="Vin">
           </div>
-          <div class="setting-row" style="margin-top: 12px;">
+          <div class="setting-row" style="margin-top: 10px;">
             <span class="setting-title">Show Designer Signature</span>
             <label class="toggle-switch">
               <input type="checkbox" id="toggleShowSignature" checked>
@@ -191,7 +278,17 @@
             </label>
           </div>
         </section>
+      </div>
 
+      <!-- Panel 2: Quick Scratchpad -->
+      <div class="drawer-content" id="panelScratchpad" style="display: none;">
+        <div class="scratchpad-box">
+          <div class="scratchpad-header">
+            <span class="scratchpad-title">QUICK NOTES & THOUGHTS</span>
+            <span class="scratchpad-saved-badge" id="notesSavedBadge">Saved</span>
+          </div>
+          <textarea id="scratchpadArea" class="scratchpad-textarea" placeholder="Jot down quick ideas, code snippets, or notes..."></textarea>
+        </div>
       </div>
     </div>
   </div>

@@ -15,7 +15,7 @@
         <h1 class="brand-title">VIN</h1>
         <span class="brand-subtitle">Chrome environment</span>
       </div>
-      <a href="../newtab/index.html" target="_blank" class="open-tab-link" title="Open New Tab Preview">
+      <a href="../newtab/index.html" target="_blank" class="open-tab-link tactile-btn" title="Open New Tab Preview">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
           <polyline points="15 3 21 3 21 9"></polyline>
@@ -31,21 +31,53 @@
       <section class="popup-section">
         <label class="section-label">Appearance</label>
         <div class="segmented-control" id="themeSegmented">
-          <button data-value="light" class="segment-btn">Light</button>
-          <button data-value="dark" class="segment-btn">Dark</button>
-          <button data-value="auto" class="segment-btn active">System</button>
+          <button data-value="light" class="segment-btn tactile-btn">Light</button>
+          <button data-value="dark" class="segment-btn tactile-btn">Dark</button>
+          <button data-value="auto" class="segment-btn tactile-btn active">System</button>
         </div>
       </section>
 
-      <!-- Background Style -->
+      <!-- Background Style & Photo Wallpapers -->
       <section class="popup-section">
-        <label class="section-label">Background</label>
+        <label class="section-label">Background & Photos</label>
         <div class="bg-select-grid" id="bgSelectGrid">
-          <button data-bg="warm-paper" class="bg-pill active" title="Warm Paper">Warm Paper</button>
-          <button data-bg="quiet-stone" class="bg-pill" title="Quiet Stone">Quiet Stone</button>
-          <button data-bg="soft-graphite" class="bg-pill" title="Soft Graphite">Soft Graphite</button>
-          <button data-bg="architectural" class="bg-pill" title="Architectural">Architectural</button>
-          <button data-bg="pure" class="bg-pill" title="Pure Blank">Pure</button>
+          <button data-bg="warm-paper" class="bg-pill tactile-btn active">Warm Paper</button>
+          <button data-bg="quiet-stone" class="bg-pill tactile-btn">Quiet Stone</button>
+          <button data-bg="soft-graphite" class="bg-pill tactile-btn">Soft Graphite</button>
+          <button data-bg="architectural" class="bg-pill tactile-btn">Architectural</button>
+          <button data-bg="arch-1" class="bg-pill tactile-btn">Concrete</button>
+          <button data-bg="city-1" class="bg-pill tactile-btn">Misty City</button>
+          <button data-bg="arch-2" class="bg-pill tactile-btn">Shadows</button>
+          <button data-bg="pure" class="bg-pill tactile-btn">Pure</button>
+        </div>
+
+        <!-- File Upload -->
+        <div class="popup-upload-box">
+          <input type="file" id="popupCustomBgInput" accept="image/*" class="file-hidden">
+          <label for="popupCustomBgInput" class="popup-upload-btn tactile-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+            <span>Upload Custom Wallpaper</span>
+          </label>
+        </div>
+
+        <!-- Dim & Blur Controls -->
+        <div class="slider-box">
+          <div class="slider-info">
+            <span>Dim</span>
+            <span id="popupDimVal">15%</span>
+          </div>
+          <input type="range" id="popupDimRange" min="0" max="80" value="15" class="popup-slider">
+        </div>
+
+        <div class="slider-box">
+          <div class="slider-info">
+            <span>Blur</span>
+            <span id="popupBlurVal">0px</span>
+          </div>
+          <input type="range" id="popupBlurRange" min="0" max="24" value="0" class="popup-slider">
         </div>
       </section>
 
@@ -62,8 +94,8 @@
         <div class="popup-row">
           <span class="row-title">Time Format</span>
           <div class="segmented-control sm" id="formatSegmented">
-            <button data-value="12" class="segment-btn">12h</button>
-            <button data-value="24" class="segment-btn active">24h</button>
+            <button data-value="12" class="segment-btn tactile-btn">12h</button>
+            <button data-value="24" class="segment-btn tactile-btn active">24h</button>
           </div>
         </div>
 
@@ -125,7 +157,7 @@
     <!-- Footer -->
     <footer class="popup-footer">
       <span class="footer-note">Designed for Njuguna Kelvin</span>
-      <span class="footer-ver">v1.0.0</span>
+      <span class="footer-ver">v1.1.0</span>
     </footer>
   </div>
 

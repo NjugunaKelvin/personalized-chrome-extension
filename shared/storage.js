@@ -5,7 +5,10 @@
 
 const DEFAULT_SETTINGS = {
   theme: 'auto',              // 'light' | 'dark' | 'auto'
-  background: 'warm-paper',   // 'warm-paper' | 'quiet-stone' | 'soft-graphite' | 'architectural' | 'pure'
+  background: 'arch-1',       // Default photo wallpaper (Concrete Minimalism)
+  bgDim: 18,                  // Balanced 18% dim overlay for photo readability
+  bgBlur: 0,                  // Backdrop blur 0 - 24px
+  customBgData: '',           // Base64 data URL for user uploaded image
   clockFormat: '24',          // '12' | '24'
   showClock: true,
   showSeconds: false,
@@ -14,7 +17,9 @@ const DEFAULT_SETTINGS = {
   quoteText: 'Life was meant to be lived.',
   userName: 'Njuguna Kelvin',
   shortName: 'Vin',
-  showSignature: true
+  showSignature: true,
+  scratchpadText: '',         // Quick notes text
+  enableFocusMode: false      // Focus mode active status
 };
 
 const STORAGE_KEY = 'vin_chrome_settings';

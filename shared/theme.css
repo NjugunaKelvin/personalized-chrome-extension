@@ -1,11 +1,11 @@
 /* ==========================================================================
    VIN Chrome Environment — Core Design System & Theme Tokens
-   Inspired by Apple visual design, macOS minimalism, Linear, and Arc.
+   Inspired by Apple visual design, iOS fluid physics, macOS minimalism, Linear, and Arc.
    ========================================================================== */
 
 :root {
   /* Font Family Stack */
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", system-ui, -apple-system, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", system-ui, sans-serif;
   --font-mono: "SF Mono", "Roboto Mono", "Courier New", monospace;
 
   /* Typography Scale */
@@ -27,16 +27,21 @@
   --space-7: 48px;
   --space-8: 64px;
 
-  /* Radii */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  /* iOS Continuous Curvature (Squircle) Radii System */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
   --radius-full: 9999px;
 
-  /* Transitions */
+  /* Fluid Motion & Spring Physics */
   --transition-fast: 120ms cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-normal: 200ms cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-slow: 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-spatial: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   /* Light Theme Palette (Warm Near-White Default) */
   --bg: #F7F6F2;
@@ -52,8 +57,13 @@
   --accent-contrast: #FFFFFF;
   --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.03);
   --shadow-elevated: 0 12px 36px rgba(0, 0, 0, 0.06);
+  --shadow-spatial: 0 30px 80px rgba(0, 0, 0, 0.18);
   --ring: rgba(17, 17, 17, 0.12);
   --pattern-opacity: 0.04;
+
+  /* Wallpaper Dynamic Controls */
+  --bg-dim-opacity: 0.15;
+  --bg-blur-val: 0px;
 }
 
 /* Explicit Dark Theme Mode */
@@ -71,6 +81,7 @@
   --accent-contrast: #0D0D0D;
   --shadow-subtle: 0 4px 24px rgba(0, 0, 0, 0.3);
   --shadow-elevated: 0 12px 40px rgba(0, 0, 0, 0.5);
+  --shadow-spatial: 0 30px 90px rgba(0, 0, 0, 0.6);
   --ring: rgba(245, 244, 239, 0.2);
   --pattern-opacity: 0.08;
 }
@@ -91,6 +102,7 @@
     --accent-contrast: #0D0D0D;
     --shadow-subtle: 0 4px 24px rgba(0, 0, 0, 0.3);
     --shadow-elevated: 0 12px 40px rgba(0, 0, 0, 0.5);
+    --shadow-spatial: 0 30px 90px rgba(0, 0, 0, 0.6);
     --ring: rgba(245, 244, 239, 0.2);
     --pattern-opacity: 0.08;
   }
@@ -114,6 +126,15 @@ html, body {
   text-rendering: optimizeLegibility;
   overflow: hidden;
   transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* Tactile Micro-Physics Feedback Classes */
+.tactile-btn {
+  transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.tactile-btn:active {
+  transform: scale(0.95) !important;
 }
 
 /* Accessibility: Reduced Motion */

@@ -13,6 +13,12 @@ class PopupApp {
   initElements() {
     this.themeSegmented = document.getElementById('themeSegmented');
     this.bgSelectGrid = document.getElementById('bgSelectGrid');
+    this.popupCustomBgInput = document.getElementById('popupCustomBgInput');
+    this.popupDimRange = document.getElementById('popupDimRange');
+    this.popupDimVal = document.getElementById('popupDimVal');
+    this.popupBlurRange = document.getElementById('popupBlurRange');
+    this.popupBlurVal = document.getElementById('popupBlurVal');
+
     this.toggleClock = document.getElementById('toggleClock');
     this.formatSegmented = document.getElementById('formatSegmented');
     this.toggleSeconds = document.getElementById('toggleSeconds');
@@ -42,38 +48,36 @@ class PopupApp {
   }
 
   syncInputs() {
-    // Theme
     if (this.themeSegmented) {
       const btns = this.themeSegmented.querySelectorAll('.segment-btn');
-      btns.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.value === this.settings.theme);
-      });
+      btns.forEach(btn => btn.classList.toggle('active', btn.dataset.value === this.settings.theme));
     }
 
-    // Background
     if (this.bgSelectGrid) {
       const btns = this.bgSelectGrid.querySelectorAll('.bg-pill');
-      btns.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.bg === this.settings.background);
-      });
+      btns.forEach(btn => btn.classList.toggle('active', btn.dataset.bg === this.settings.background));
     }
 
-    // Toggles & Controls
+    const dimVal = typeof this.settings.bgDim !== 'undefined' ? this.settings.bgDim : 15;
+    const blurVal = typeof this.settings.bgBlur !== 'undefined' ? this.settings.bgBlur : 0;
+
+    if (this.popupDimRange) this.popupDimRange.value = dimVal;
+    if (this.popupDimVal) this.popupDimVal.textContent = `${dimVal}%`;
+
+    if (this.popupBlurRange) this.popupBlurRange.value = blurVal;
+    if (this.popupBlurVal) this.popupBlurVal.textContent = `${blurVal}px`;
+
     if (this.toggleClock) this.toggleClock.checked = !!this.settings.showClock;
     if (this.toggleSeconds) this.toggleSeconds.checked = !!this.settings.showSeconds;
     if (this.toggleDate) this.toggleDate.checked = !!this.settings.showDate;
     if (this.toggleQuote) this.toggleQuote.checked = !!this.settings.showQuote;
     if (this.toggleSignature) this.toggleSignature.checked = !!this.settings.showSignature;
 
-    // Clock Format
     if (this.formatSegmented) {
       const btns = this.formatSegmented.querySelectorAll('.segment-btn');
-      btns.forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.value === this.settings.clockFormat);
-      });
+      btns.forEach(btn => btn.classList.toggle('active', btn.dataset.value === this.settings.clockFormat));
     }
 
-    // Inputs
     if (this.quoteInput) this.quoteInput.value = this.settings.quoteText || '';
     if (this.nameInput) this.nameInput.value = this.settings.userName || '';
     if (this.shortInput) this.shortInput.value = this.settings.shortName || '';
@@ -86,36 +90,56 @@ class PopupApp {
   }
 
   setupListeners() {
-    // Theme click
     if (this.themeSegmented) {
       this.themeSegmented.addEventListener('click', (e) => {
         const btn = e.target.closest('.segment-btn');
-        if (btn && btn.dataset.value) {
-          this.updateSetting('theme', btn.dataset.value);
-        }
+        if (btn && btn.dataset.value) this.updateSetting('theme', btn.dataset.value);
       });
     }
 
-    // Background click
     if (this.bgSelectGrid) {
       this.bgSelectGrid.addEventListener('click', (e) => {
         const btn = e.target.closest('.bg-pill');
-        if (btn && btn.dataset.bg) {
-          this.updateSetting('background', btn.dataset.bg);
+        if (btn && btn.dataset.bg) this.updateSetting('background', btn.dataset.bg);
+      });
+    }
+
+    if (this.popupCustomBgInput) {
+      this.popupCustomBgInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const dataUrl = event.target.result;
+            this.updateSetting('customBgData', dataUrl);
+            this.updateSetting('background', 'custom');
+          };
+          reader.readAsDataURL(file);
         }
       });
     }
 
-    // Toggles
+    if (this.popupDimRange) {
+      this.popupDimRange.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value, 10);
+        this.updateSetting('bgDim', val);
+      });
+    }
+
+    if (this.popupBlurRange) {
+      this.popupBlurRange.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value, 10);
+        this.updateSetting('bgBlur', val);
+      });
+    }
+
     if (this.toggleClock) {
       this.toggleClock.addEventListener('change', (e) => this.updateSetting('showClock', e.target.checked));
     }
     if (this.formatSegmented) {
       this.formatSegmented.addEventListener('click', (e) => {
         const btn = e.target.closest('.segment-btn');
-        if (btn && btn.dataset.value) {
-          this.updateSetting('clockFormat', btn.dataset.value);
-        }
+        if (btn && btn.dataset.value) this.updateSetting('clockFormat', btn.dataset.value);
       });
     }
     if (this.toggleSeconds) {

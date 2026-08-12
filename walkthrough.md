@@ -1,87 +1,35 @@
-# Walkthrough — VIN Personal Chrome Environment
+# Walkthrough — VIN Personal Chrome Environment (v1.2.0 Fluid Motion & Bold Typography)
 
-We have built and verified **VIN**, a personalized Chrome browser extension and theme designed specifically for **Njuguna Kelvin (Vin)**.
-
-The extension is minimal, calm, intentional, and unmistakably personal, combining Apple design language, macOS minimalism, Linear, Arc, and Japanese spatial aesthetics.
+We have updated **VIN** with default architectural photo wallpaper (`arch-1` Concrete Minimalism), bolder typography weights, staggered entrance animations, and ambient mouse parallax.
 
 ---
 
 ## 📸 Visual Demonstration
 
 ````carousel
-![VIN Editorial New Tab Page](file:///C:/Users/Vin/.gemini/antigravity-ide/brain/33738adc-69f4-4bdc-849f-a9ffb2301914/closed_editorial_view_1786544461942.png)
+![Default Photo Wallpaper & Bold Typography](file:///C:/Users/Vin/.gemini/antigravity-ide/brain/33738adc-69f4-4bdc-849f-a9ffb2301914/main_page_default_1786545662660.png)
 <!-- slide -->
-![VIN Embedded Settings Drawer](file:///C:/Users/Vin/.gemini/antigravity-ide/brain/33738adc-69f4-4bdc-849f-a9ffb2301914/open_drawer_view_1786544496509.png)
+![Spatial Receding Stack Depth Effect & Preferences](file:///C:/Users/Vin/.gemini/antigravity-ide/brain/33738adc-69f4-4bdc-849f-a9ffb2301914/settings_drawer_open_1786545690927.png)
+<!-- slide -->
+![Floating Command Search Modal (Cmd+K)](file:///C:/Users/Vin/.gemini/antigravity-ide/brain/33738adc-69f4-4bdc-849f-a9ffb2301914/command_search_modal_1786545126558.png)
 ````
 
 ---
 
-## 🛠 Project Architecture
+## 🌟 What's New in v1.2.0
 
-The extension files are created in `c:\Users\Vin\Desktop\projects\chrome-extension`:
+1. **Default High-Resolution Photo Wallpaper**:
+   - Opens immediately with **Concrete Minimalism** (`arch-1.png`) by default.
+   - Pre-loaded with a balanced `18%` dim overlay to ensure zero flash of unstyled content and perfect contrast.
 
-```text
-c:\Users\Vin\Desktop\projects\chrome-extension\
-├── manifest.json                  # Manifest V3 theme & extension schema
-├── shared/
-│   ├── theme.css                  # Tokenized design system, light/dark modes, Apple typography
-│   └── storage.js                 # chrome.storage.sync wrapper with localStorage fallback
-├── newtab/
-│   ├── index.html                 # Editorial New Tab structure
-│   ├── styles.css                 # Editorial grid layout & settings drawer styles
-│   └── app.js                     # Dynamic clock, greeting calculator, & settings sync
-├── popup/
-│   ├── index.html                 # Toolbar popup HTML
-│   ├── styles.css                 # Tactile iPhone card styles
-│   └── app.js                     # Extension popup logic
-├── options/
-│   ├── index.html                 # Dedicated full options page HTML
-│   ├── styles.css                 # Options layout
-│   └── app.js                     # Options page controller
-├── assets/
-│   ├── backgrounds/
-│   │   └── background-patterns.css# Self-contained procedural SVG wallpaper textures
-│   └── icons/
-│       ├── icon16.png             # 16x16 PNG extension icon
-│       ├── icon48.png             # 48x48 PNG extension icon
-│       ├── icon128.png            # 128x128 PNG extension icon
-│       └── generate_icons.js      # Zero-dependency Node.js PNG icon generator
-└── README.md                      # Complete installation & customization guide
-```
+2. **Bolder Typography Hierarchy**:
+   - **Greeting Text**: Font-weight increased to `600` (semibold) with crisp drop shadow.
+   - **Digital Clock**: Font-weight increased to `600` (bold, crisp numbers).
+   - **Date Statement**: Font-weight increased to `700` (bold uppercase tracking).
+   - **Personal Quote & Brand Mark**: Font-weight increased to `600` / `700`.
 
----
+3. **Fluid Staggered Entrance Animations**:
+   - Staggered entrance keyframe sequence (`@keyframes fluidEntrance`) so top navigation, greeting, date, clock, quote, and signature glide into view smoothly upon opening a new tab.
 
-## 🚀 Key Features Implemented
-
-1. **Editorial New Tab Page**:
-   - Dynamic contextual greeting (`Good morning, Vin.`, `Good afternoon, Vin.`, `Good evening, Vin.`).
-   - Clean uppercase date statement (`WEDNESDAY · AUGUST 12`).
-   - Minimal digital clock with 12h/24h formats, toggleable seconds, and date visibility controls.
-   - Editorial phrase/quote (`LIFE WAS MEANT TO BE LIVED.`) with customizable text input and presets.
-   - Understated signature (`VIN · PERSONAL ENVIRONMENT`).
-
-2. **Color Token System & Theme Modes**:
-   - **Warm Light Mode**: Soft off-white canvas (`#F7F6F2`) with warm slate typography (`#171717`).
-   - **Soft Graphite Dark Mode**: Deep midnight charcoal (`#0D0D0D` / `#151515`).
-   - **System Auto Mode**: Follows your operating system dark mode schedule.
-
-3. **Wallpaper Backgrounds**:
-   - `Warm Paper` (Subtle off-white grain texture)
-   - `Quiet Stone` (Micro-stipple stone dot pattern)
-   - `Soft Graphite` (Soft dark mesh texture)
-   - `Architectural` (Minimal geometric grid lines)
-   - `Pure Blank` (Untextured monochrome canvas)
-
-4. **Settings & Customization Hubs**:
-   - iPhone-inspired tactile toolbar **Popup**.
-   - Embedded slide-in **Settings Drawer** on the New Tab page.
-   - Dedicated **Options Page** in Chrome settings.
-
----
-
-## ⚡ Verification Results
-
-1. **Syntax Checks**: Verified all JavaScript files (`storage.js`, `newtab/app.js`, `popup/app.js`, `options/app.js`, `generate_icons.js`) with `node --check` — **Passed with zero errors**.
-2. **Manifest Validation**: Validated `manifest.json` schema — **Passed clean**.
-3. **PNG Icon Generator**: Generated clean 16x16, 48x48, and 128x128 PNG icons using standard Node.js zlib — **Passed**.
-4. **Visual & UI Verification**: Rendered the New Tab page and tested all controls, drawer slide transitions, greetings, clock ticks, and settings inputs in Chromium subagent — **Verified visually**.
+4. **Ambient 3D Cursor Parallax**:
+   - Background image responds to mouse movement with subtle physics-based 3D parallax shifts (`translate3d`), bringing the architectural photography to life.
