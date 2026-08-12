@@ -27,6 +27,32 @@
   overflow: hidden;
 }
 
+/* Time-of-Day Dynamic Atmosphere Overlay */
+.bg-atmosphere-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 800ms ease;
+  opacity: 0;
+}
+
+.bg-atmosphere-overlay.active {
+  opacity: 1;
+}
+
+.bg-atmosphere-overlay.morning {
+  background: radial-gradient(circle at 10% 20%, rgba(255, 240, 215, 0.12) 0%, transparent 65%);
+}
+
+.bg-atmosphere-overlay.golden {
+  background: radial-gradient(circle at 80% 20%, rgba(255, 150, 70, 0.18) 0%, rgba(180, 70, 30, 0.08) 70%);
+}
+
+.bg-atmosphere-overlay.indigo {
+  background: radial-gradient(circle at 50% 10%, rgba(30, 25, 65, 0.28) 0%, rgba(10, 10, 25, 0.35) 80%);
+}
+
 /* Layout Container */
 .newtab-container {
   position: relative;
@@ -36,6 +62,88 @@
   flex-direction: column;
   justify-content: space-between;
   padding: calc(var(--space-5) + 8px) calc(var(--space-6) + 8px);
+}
+
+/* ==========================================================================
+   VERTICAL FLOATING RIGHT EDGE GLASS ICON DOCK
+   ========================================================================== */
+
+.vertical-nav-dock {
+  position: fixed;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 6px;
+  background: rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  animation: fluidEntrance 800ms cubic-bezier(0.16, 1, 0.3, 1) 350ms both;
+}
+
+[data-theme="dark"] .vertical-nav-dock {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.dock-icon-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  color: #FFFFFF;
+  background: transparent;
+  text-decoration: none;
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dock-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: scale(1.15);
+  color: #FFFFFF;
+}
+
+.dock-icon-btn:active {
+  transform: scale(0.95);
+}
+
+/* Sliding Left Tooltip Labels */
+.dock-tooltip {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #FFFFFF;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-xs);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.dock-icon-btn:hover .dock-tooltip {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
 }
 
 /* ==========================================================================
@@ -87,25 +195,11 @@
   width: 100%;
 }
 
-.brand-mark {
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 12px;
-  background-color: transparent;
-  border-radius: var(--radius-sm);
-  user-select: none;
+.top-left-spacer {
+  width: 40px;
 }
 
-.brand-text {
-  font-size: var(--font-xs);
-  font-weight: 800;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--text-primary);
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.25);
-}
-
-/* Glass Capsule for Top Right Buttons (High Contrast & Clear Visibility) */
+/* Glass Capsule for Top Right Buttons */
 .glass-action-capsule {
   display: flex;
   align-items: center;
@@ -168,7 +262,6 @@
   padding: var(--space-4);
 }
 
-/* Greeting (High Contrast Bold Hierarchy) */
 .greeting-text {
   font-size: clamp(30px, 4.4vw, 50px);
   font-weight: 600;
@@ -178,7 +271,6 @@
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* Date (Bold Uppercase & High Contrast) */
 .date-text {
   font-size: var(--font-xs);
   font-weight: 700;
@@ -190,7 +282,6 @@
   margin-bottom: var(--space-2);
 }
 
-/* Digital Clock (Bold Numbers with Shadow Depth) */
 .clock-container {
   display: inline-flex;
   align-items: baseline;
@@ -224,7 +315,6 @@
   display: inline;
 }
 
-/* Quote Statement (High Contrast Visibility) */
 .quote-container {
   margin-top: var(--space-3);
   max-width: 640px;
@@ -242,7 +332,7 @@
 }
 
 /* ==========================================================================
-   SPLIT BOTTOM BAR & QUICK NAVIGATION PILLS
+   SPLIT BOTTOM BAR
    ========================================================================== */
 
 .bottom-bar {
@@ -250,6 +340,12 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
+}
+
+.bottom-left-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
 }
 
 .bottom-left-info {
@@ -270,6 +366,221 @@
   border-radius: 50%;
   background-color: #10B981;
   box-shadow: 0 0 10px #10B981;
+}
+
+/* Soundscape Control Pill */
+.soundscape-control-pill {
+  position: relative;
+}
+
+.soundscape-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #FFFFFF;
+  background: rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.soundscape-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.sound-popover {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-spatial);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: all 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 140px;
+  z-index: 50;
+}
+
+.soundscape-control-pill.open .sound-popover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.sound-opt-btn {
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-xs);
+  text-align: left;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.sound-opt-btn:hover {
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+.sound-opt-btn.active {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+/* Mindfulness Breath Trigger Pill */
+.breath-trigger-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #FFFFFF;
+  background: rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.breath-trigger-pill:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.breath-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #6366F1;
+  box-shadow: 0 0 8px #6366F1;
+}
+
+/* Micro-Mindfulness Breathing Modal Ring */
+.mindfulness-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mindfulness-modal.open {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.breath-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.breath-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-7);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-spatial);
+  min-width: 340px;
+  gap: var(--space-4);
+  transform: scale(0.9);
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mindfulness-modal.open .breath-box {
+  transform: scale(1);
+}
+
+.breath-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  color: var(--text-tertiary);
+  cursor: pointer;
+}
+
+.breath-close-btn:hover {
+  color: var(--text-primary);
+}
+
+.breath-ring-wrapper {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.breath-ring-outer {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, rgba(99, 102, 241, 0.1) 70%);
+  border: 2px solid rgba(99, 102, 241, 0.6);
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+  transition: transform 4000ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.breath-ring-outer.inhale {
+  transform: scale(1.6);
+}
+
+.breath-ring-outer.hold {
+  transform: scale(1.6);
+  box-shadow: 0 0 45px rgba(99, 102, 241, 0.7);
+}
+
+.breath-ring-outer.exhale {
+  transform: scale(0.9);
+}
+
+.breath-phase-text {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.breath-sub-text {
+  font-size: var(--font-xs);
+  color: var(--text-secondary);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .signature-mark {
@@ -295,46 +606,11 @@
   font-size: 8px;
 }
 
-.bottom-right-nav {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.nav-pill {
-  padding: 5px 12px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: #FFFFFF;
-  background: rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-full);
-  text-decoration: none;
-  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-}
-
-[data-theme="dark"] .nav-pill {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.18);
-  color: #FFFFFF;
-}
-
-.nav-pill:hover {
-  background: #FFFFFF;
-  color: #171717;
-  border-color: #FFFFFF;
-  transform: translateY(-2px);
-  text-shadow: none;
-}
-
 /* Focus Mode State (F key) */
 body.focus-mode .top-bar,
 body.focus-mode .quote-container,
-body.focus-mode .bottom-bar {
+body.focus-mode .bottom-bar,
+body.focus-mode .vertical-nav-dock {
   opacity: 0;
   pointer-events: none;
 }

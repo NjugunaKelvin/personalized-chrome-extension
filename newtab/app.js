@@ -1,14 +1,16 @@
 /**
  * VIN Chrome Environment — New Tab Page Core Logic
- * Handles real-time clock, greetings, mouse parallax physics, background image customizer, & spatial transitions.
+ * Handles real-time clock, greetings, mouse parallax physics, soundscape audio, breathing reset, & spatial transitions.
  */
 
 import { Storage } from '../shared/storage.js';
+import { SoundEngine } from '../shared/audio.js';
 
 class NewTabApp {
   constructor() {
     this.settings = Storage.getDefaults();
     this.clockInterval = null;
+    this.breathTimer = null;
     this.initElements();
   }
 
@@ -24,10 +26,24 @@ class NewTabApp {
     this.quoteText = document.getElementById('quoteText');
     this.bottomSignature = document.getElementById('bottomSignature');
     this.timeZoneText = document.getElementById('timeZoneText');
+    this.bgAtmosphereOverlay = document.getElementById('bgAtmosphereOverlay');
+
+    // Soundscape Elements
+    this.soundscapePill = document.getElementById('soundscapePill');
+    this.soundToggleBtn = document.getElementById('soundToggleBtn');
+    this.soundLabelText = document.getElementById('soundLabelText');
+    this.soundPopover = document.getElementById('soundPopover');
+
+    // Breathing Reset Modal
+    this.breathBtn = document.getElementById('breathBtn');
+    this.breathModal = document.getElementById('breathModal');
+    this.breathOverlay = document.getElementById('breathOverlay');
+    this.breathCloseBtn = document.getElementById('breathCloseBtn');
+    this.breathRing = document.getElementById('breathRing');
+    this.breathPhaseText = document.getElementById('breathPhaseText');
 
     // Action Triggers
     this.settingsBtn = document.getElementById('settingsBtn');
-    this.focusModeBtn = document.getElementById('focusModeBtn');
     this.cmdBarBtn = document.getElementById('cmdBarBtn');
 
     // Command Palette Modal
@@ -76,6 +92,7 @@ class NewTabApp {
     this.syncDrawerInputs();
     this.startClock();
     this.updateTimeZone();
+    this.updateAtmosphereTint();
     this.setupEventListeners();
     this.setupMouseParallax();
 
@@ -103,6 +120,23 @@ class NewTabApp {
         ticking = true;
       }
     });
+  }
+
+  /**
+   * Dynamic Time-of-Day Atmosphere Tinting
+   */
+  updateAtmosphereTint() {
+    if (!this.bgAtmosphereOverlay) return;
+    const hour = new Date().getHours();
+    this.bgAtmosphereOverlay.className = 'bg-atmosphere-overlay active';
+
+    if (hour >= 5 && hour < 12) {
+      this.bgAtmosphereOverlay.classList.add('morning');
+    } else if (hour >= 17 && hour < 20) {
+      this.bgAtmosphereOverlay.classList.add('golden');
+    } else if (hour >= 20 || hour < 5) {
+      this.bgAtmosphereOverlay.classList.add('indigo');
+    }
   }
 
   /**
@@ -267,6 +301,7 @@ class NewTabApp {
       if (new Date().getSeconds() === 0) {
         this.updateDate();
         this.updateGreeting(this.settings.shortName || 'Vin');
+        this.updateAtmosphereTint();
       }
     }, 1000);
   }
@@ -309,7 +344,6 @@ class NewTabApp {
 
   /**
    * HTML5 Canvas Image Downscaling & Compression Helper
-   * Downscales large user images to max 1920px width & 85% JPEG quality
    */
   compressImageFile(file, maxDimension = 1920, quality = 0.85) {
     return new Promise((resolve, reject) => {
@@ -347,6 +381,44 @@ class NewTabApp {
     });
   }
 
+  /**
+   * 60-Second Guided Breath Reset Controller
+   */
+  startBreathReset() {
+    if (!this.breathModal) return;
+    this.breathModal.classList.add('open');
+    this.breathModal.setAttribute('aria-hidden', 'false');
+
+    let step = 0;
+    const runCycle = () => {
+      step++;
+      if (step === 1) {
+        if (this.breathPhaseText) this.breathPhaseText.textContent = 'Inhale deeply...';
+        if (this.breathRing) this.breathRing.className = 'breath-ring-outer inhale';
+      } else if (step === 2) {
+        if (this.breathPhaseText) this.breathPhaseText.textContent = 'Hold breath...';
+        if (this.breathRing) this.breathRing.className = 'breath-ring-outer hold';
+      } else if (step === 3) {
+        if (this.breathPhaseText) this.breathPhaseText.textContent = 'Exhale slowly...';
+        if (this.breathRing) this.breathRing.className = 'breath-ring-outer exhale';
+      } else if (step >= 4) {
+        step = 0;
+      }
+    };
+
+    runCycle();
+    if (this.breathTimer) clearInterval(this.breathTimer);
+    this.breathTimer = setInterval(runCycle, 4000);
+  }
+
+  stopBreathReset() {
+    if (this.breathTimer) clearInterval(this.breathTimer);
+    if (this.breathModal) {
+      this.breathModal.classList.remove('open');
+      this.breathModal.setAttribute('aria-hidden', 'true');
+    }
+  }
+
   openDrawer() {
     this.settingsDrawer.classList.add('open');
     this.settingsDrawer.setAttribute('aria-hidden', 'false');
@@ -378,6 +450,51 @@ class NewTabApp {
   }
 
   setupEventListeners() {
+    // Soundscape Controls
+    if (this.soundToggleBtn && this.soundscapePill) {
+      this.soundToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.soundscapePill.classList.toggle('open');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!this.soundscapePill.contains(e.target)) {
+          this.soundscapePill.classList.remove('open');
+        }
+      });
+    }
+
+    if (this.soundPopover) {
+      this.soundPopover.addEventListener('click', (e) => {
+        const btn = e.target.closest('.sound-opt-btn');
+        if (btn && btn.dataset.sound) {
+          const sound = btn.dataset.sound;
+          const btns = this.soundPopover.querySelectorAll('.sound-opt-btn');
+          btns.forEach(b => b.classList.toggle('active', b.dataset.sound === sound));
+
+          if (sound === 'none') {
+            SoundEngine.stop();
+            if (this.soundLabelText) this.soundLabelText.textContent = 'SOUNDSCAPE';
+          } else {
+            SoundEngine.playPreset(sound);
+            const labelMap = {
+              'brown-noise': 'BROWN NOISE',
+              'soft-rain': 'SOFT RAIN',
+              'warm-drone': '432HZ DRONE'
+            };
+            if (this.soundLabelText) this.soundLabelText.textContent = labelMap[sound] || 'SOUNDSCAPE';
+          }
+          this.soundscapePill.classList.remove('open');
+        }
+      });
+    }
+
+    // Breath Reset
+    if (this.breathBtn) this.breathBtn.addEventListener('click', () => this.startBreathReset());
+    if (this.breathCloseBtn) this.breathCloseBtn.addEventListener('click', () => this.stopBreathReset());
+    if (this.breathOverlay) this.breathOverlay.addEventListener('click', () => this.stopBreathReset());
+
+    // Drawer
     if (this.settingsBtn) this.settingsBtn.addEventListener('click', () => this.openDrawer());
     if (this.drawerCloseBtn) this.drawerCloseBtn.addEventListener('click', () => this.closeDrawer());
     if (this.drawerOverlay) this.drawerOverlay.addEventListener('click', () => this.closeDrawer());
@@ -416,12 +533,6 @@ class NewTabApp {
       });
     }
 
-    if (this.focusModeBtn) {
-      this.focusModeBtn.addEventListener('click', () => {
-        this.updateSetting('enableFocusMode', !this.settings.enableFocusMode);
-      });
-    }
-
     window.addEventListener('keydown', (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
@@ -434,7 +545,9 @@ class NewTabApp {
       }
 
       if (e.key === 'Escape') {
-        if (this.cmdModal && this.cmdModal.classList.contains('open')) {
+        if (this.breathModal && this.breathModal.classList.contains('open')) {
+          this.stopBreathReset();
+        } else if (this.cmdModal && this.cmdModal.classList.contains('open')) {
           this.closeCommandModal();
         } else if (this.settingsDrawer && this.settingsDrawer.classList.contains('open')) {
           this.closeDrawer();
@@ -457,7 +570,6 @@ class NewTabApp {
       });
     }
 
-    // Optimized Custom Background Image Uploader
     if (this.customBgInput) {
       this.customBgInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
