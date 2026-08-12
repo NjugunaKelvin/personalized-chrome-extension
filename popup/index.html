@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIN Settings</title>
+  <link rel="stylesheet" href="../shared/theme.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="popup-brand">
+        <h1 class="brand-title">VIN</h1>
+        <span class="brand-subtitle">Chrome environment</span>
+      </div>
+      <a href="../newtab/index.html" target="_blank" class="open-tab-link" title="Open New Tab Preview">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+      </a>
+    </header>
+
+    <!-- Scrollable Content Body -->
+    <main class="popup-body">
+
+      <!-- Appearance Mode -->
+      <section class="popup-section">
+        <label class="section-label">Appearance</label>
+        <div class="segmented-control" id="themeSegmented">
+          <button data-value="light" class="segment-btn">Light</button>
+          <button data-value="dark" class="segment-btn">Dark</button>
+          <button data-value="auto" class="segment-btn active">System</button>
+        </div>
+      </section>
+
+      <!-- Background Style -->
+      <section class="popup-section">
+        <label class="section-label">Background</label>
+        <div class="bg-select-grid" id="bgSelectGrid">
+          <button data-bg="warm-paper" class="bg-pill active" title="Warm Paper">Warm Paper</button>
+          <button data-bg="quiet-stone" class="bg-pill" title="Quiet Stone">Quiet Stone</button>
+          <button data-bg="soft-graphite" class="bg-pill" title="Soft Graphite">Soft Graphite</button>
+          <button data-bg="architectural" class="bg-pill" title="Architectural">Architectural</button>
+          <button data-bg="pure" class="bg-pill" title="Pure Blank">Pure</button>
+        </div>
+      </section>
+
+      <!-- Clock Preferences -->
+      <section class="popup-section">
+        <div class="popup-row">
+          <span class="row-title">Display Clock</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleClock" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="popup-row">
+          <span class="row-title">Time Format</span>
+          <div class="segmented-control sm" id="formatSegmented">
+            <button data-value="12" class="segment-btn">12h</button>
+            <button data-value="24" class="segment-btn active">24h</button>
+          </div>
+        </div>
+
+        <div class="popup-row">
+          <span class="row-title">Show Seconds</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleSeconds">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="popup-row">
+          <span class="row-title">Show Date</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleDate" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Philosophy Quote -->
+      <section class="popup-section">
+        <div class="popup-row">
+          <span class="row-title">Show Philosophy Quote</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleQuote" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="field-box">
+          <label for="quoteInput" class="field-caption">Personal Phrase</label>
+          <input type="text" id="quoteInput" class="popup-input" value="Life was meant to be lived.">
+        </div>
+      </section>
+
+      <!-- Personal Identity -->
+      <section class="popup-section">
+        <label class="section-label">Identity</label>
+        <div class="field-box">
+          <label for="nameInput" class="field-caption">Full Name</label>
+          <input type="text" id="nameInput" class="popup-input" value="Njuguna Kelvin">
+        </div>
+        <div class="field-box">
+          <label for="shortInput" class="field-caption">Short Identity / Monogram</label>
+          <input type="text" id="shortInput" class="popup-input" value="Vin">
+        </div>
+        <div class="popup-row" style="margin-top: 6px;">
+          <span class="row-title">Designer Signature</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleSignature" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="popup-footer">
+      <span class="footer-note">Designed for Njuguna Kelvin</span>
+      <span class="footer-ver">v1.0.0</span>
+    </footer>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Tab</title>
+
+  <!-- Design System & Background Styles -->
+  <link rel="stylesheet" href="../shared/theme.css">
+  <link rel="stylesheet" href="../assets/backgrounds/background-patterns.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Background Pattern Layer -->
+  <div class="bg-layer" aria-hidden="true"></div>
+
+  <!-- Main Container -->
+  <main class="newtab-container">
+
+    <!-- Top Navigation / Header -->
+    <header class="top-bar">
+      <div class="brand-mark" id="topBrandMark" title="VIN Personal Chrome Environment">
+        <span class="brand-text">VIN</span>
+      </div>
+      <button class="settings-trigger" id="settingsBtn" aria-label="Open Environment Settings" title="Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Editorial Central Core -->
+    <section class="editorial-core">
+      <!-- Greeting -->
+      <h1 class="greeting-text" id="greetingText">Good morning, Vin.</h1>
+
+      <!-- Date -->
+      <p class="date-text" id="dateText">WEDNESDAY · AUGUST 12</p>
+
+      <!-- Digital Clock -->
+      <div class="clock-container" id="clockContainer">
+        <time class="clock-display" id="clockDisplay">17:42</time>
+        <span class="clock-seconds" id="clockSeconds">00</span>
+      </div>
+
+      <!-- Quote Statement -->
+      <blockquote class="quote-container" id="quoteContainer">
+        <p class="quote-text" id="quoteText">LIFE WAS MEANT TO BE LIVED.</p>
+      </blockquote>
+    </section>
+
+    <!-- Bottom Signature Bar -->
+    <footer class="bottom-bar">
+      <div class="signature-mark" id="bottomSignature">
+        <span class="sig-name">VIN</span>
+        <span class="sig-dot">·</span>
+        <span class="sig-environment">PERSONAL ENVIRONMENT</span>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Embedded Quick Settings Drawer / Overlay -->
+  <div class="settings-drawer" id="settingsDrawer" aria-hidden="true">
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <div class="drawer-panel">
+      <header class="drawer-header">
+        <div>
+          <h2>VIN</h2>
+          <p class="drawer-subtitle">Chrome environment preferences</p>
+        </div>
+        <button class="drawer-close" id="drawerCloseBtn" aria-label="Close Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </header>
+
+      <div class="drawer-content">
+        <!-- Appearance Theme -->
+        <section class="setting-group">
+          <label class="setting-label">Appearance</label>
+          <div class="segmented-control" id="themeSegmented">
+            <button data-value="light" class="segment-btn">Light</button>
+            <button data-value="dark" class="segment-btn">Dark</button>
+            <button data-value="auto" class="segment-btn active">System</button>
+          </div>
+        </section>
+
+        <!-- Background Options -->
+        <section class="setting-group">
+          <label class="setting-label">Background</label>
+          <div class="bg-options-grid" id="bgOptionsGrid">
+            <button data-bg="warm-paper" class="bg-option-btn active">
+              <span class="bg-preview bg-preview-paper"></span>
+              <span class="bg-title">Warm Paper</span>
+            </button>
+            <button data-bg="quiet-stone" class="bg-option-btn">
+              <span class="bg-preview bg-preview-stone"></span>
+              <span class="bg-title">Quiet Stone</span>
+            </button>
+            <button data-bg="soft-graphite" class="bg-option-btn">
+              <span class="bg-preview bg-preview-graphite"></span>
+              <span class="bg-title">Soft Graphite</span>
+            </button>
+            <button data-bg="architectural" class="bg-option-btn">
+              <span class="bg-preview bg-preview-architectural"></span>
+              <span class="bg-title">Architectural</span>
+            </button>
+            <button data-bg="pure" class="bg-option-btn">
+              <span class="bg-preview bg-preview-pure"></span>
+              <span class="bg-title">Pure Blank</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Clock Options -->
+        <section class="setting-group">
+          <div class="setting-row">
+            <span class="setting-title">Show Clock</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggleShowClock" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <span class="setting-title">Time Format</span>
+            <div class="segmented-control sm" id="clockFormatSegmented">
+              <button data-value="12" class="segment-btn">12h</button>
+              <button data-value="24" class="segment-btn active">24h</button>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <span class="setting-title">Show Seconds</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggleShowSeconds">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <span class="setting-title">Show Date</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggleShowDate" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </section>
+
+        <!-- Quote Options -->
+        <section class="setting-group">
+          <div class="setting-row">
+            <span class="setting-title">Show Philosophy Quote</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggleShowQuote" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-field">
+            <label for="quoteTextInput" class="field-label">Custom Quote</label>
+            <input type="text" id="quoteTextInput" class="text-input" value="Life was meant to be lived." placeholder="Enter your personal phrase...">
+            <div class="preset-pills" id="presetPills">
+              <button class="preset-pill" data-quote="Life was meant to be lived.">Life was meant to be lived.</button>
+              <button class="preset-pill" data-quote="Go be alive.">Go be alive.</button>
+              <button class="preset-pill" data-quote="Some moments change everything.">Some moments change everything.</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Personal Identity -->
+        <section class="setting-group">
+          <label class="setting-label">Identity</label>
+          <div class="setting-field">
+            <label for="userNameInput" class="field-label">Full Name</label>
+            <input type="text" id="userNameInput" class="text-input" value="Njuguna Kelvin">
+          </div>
+          <div class="setting-field" style="margin-top: 10px;">
+            <label for="shortNameInput" class="field-label">Short Name / Monogram</label>
+            <input type="text" id="shortNameInput" class="text-input" value="Vin">
+          </div>
+          <div class="setting-row" style="margin-top: 12px;">
+            <span class="setting-title">Show Designer Signature</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="toggleShowSignature" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

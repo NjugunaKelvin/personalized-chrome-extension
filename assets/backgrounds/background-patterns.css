@@ -1,0 +1,43 @@
+/* ==========================================================================
+   VIN Chrome Environment — Background Pattern Definitions
+   Self-contained procedural SVGs and subtle textures for wallpaper presets.
+   ========================================================================== */
+
+/* Background Pattern Container */
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity var(--transition-slow);
+}
+
+/* 1. Warm Paper (Subtle paper fiber / grain) */
+[data-background="warm-paper"] .bg-layer {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: var(--pattern-opacity);
+}
+
+/* 2. Quiet Stone (Subtle stipple micro-dots) */
+[data-background="quiet-stone"] .bg-layer {
+  background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='4' cy='4' r='1' fill='%23888888' fill-opacity='0.25'/%3E%3Ccircle cx='20' cy='18' r='0.8' fill='%23888888' fill-opacity='0.2'/%3E%3Ccircle cx='28' cy='8' r='0.6' fill='%23888888' fill-opacity='0.15'/%3E%3C/svg%3E");
+  opacity: calc(var(--pattern-opacity) * 2);
+}
+
+/* 3. Soft Graphite (Darker micro-mesh texture) */
+[data-background="soft-graphite"] .bg-layer {
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 12H24M12 0V24' stroke='%23888888' stroke-width='0.5' stroke-opacity='0.15'/%3E%3C/svg%3E");
+  opacity: var(--pattern-opacity);
+}
+
+/* 4. Architectural (Minimal structural geometric lines) */
+[data-background="architectural"] .bg-layer {
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 80L80 0M0 0H80V80' stroke='%23888888' stroke-width='0.5' stroke-opacity='0.15'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  opacity: calc(var(--pattern-opacity) * 1.5);
+}
+
+/* 5. Pure (Clean, untextured monochrome canvas) */
+[data-background="pure"] .bg-layer {
+  opacity: 0;
+}

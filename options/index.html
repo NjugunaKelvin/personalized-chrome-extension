@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIN — Environment Options</title>
+  <link rel="stylesheet" href="../shared/theme.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="options-container">
+    <header class="options-header">
+      <div class="brand">
+        <h1>VIN</h1>
+        <p>Personal Chrome Environment Settings</p>
+      </div>
+      <a href="../newtab/index.html" class="preview-btn" target="_blank">Open New Tab</a>
+    </header>
+
+    <main class="options-main">
+
+      <!-- Appearance -->
+      <section class="card">
+        <h2 class="card-title">Appearance & Theme</h2>
+        <p class="card-desc">Choose between warm light mode, deep graphite dark mode, or follow your system schedule.</p>
+        <div class="segmented-control" id="themeSegmented">
+          <button data-value="light" class="segment-btn">Warm Light</button>
+          <button data-value="dark" class="segment-btn">Soft Graphite Dark</button>
+          <button data-value="auto" class="segment-btn active">System Auto</button>
+        </div>
+      </section>
+
+      <!-- Backgrounds -->
+      <section class="card">
+        <h2 class="card-title">Background Environment</h2>
+        <p class="card-desc">Select an abstract, minimal wallpaper pattern.</p>
+        <div class="bg-options-grid" id="bgGrid">
+          <button data-bg="warm-paper" class="bg-card active">
+            <div class="bg-preview bg-preview-paper"></div>
+            <span>Warm Paper</span>
+          </button>
+          <button data-bg="quiet-stone" class="bg-card">
+            <div class="bg-preview bg-preview-stone"></div>
+            <span>Quiet Stone</span>
+          </button>
+          <button data-bg="soft-graphite" class="bg-card">
+            <div class="bg-preview bg-preview-graphite"></div>
+            <span>Soft Graphite</span>
+          </button>
+          <button data-bg="architectural" class="bg-card">
+            <div class="bg-preview bg-preview-architectural"></div>
+            <span>Architectural</span>
+          </button>
+          <button data-bg="pure" class="bg-card">
+            <div class="bg-preview bg-preview-pure"></div>
+            <span>Pure Blank</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Clock & Date -->
+      <section class="card">
+        <h2 class="card-title">Clock & Date Display</h2>
+
+        <div class="opt-row">
+          <div>
+            <span class="opt-name">Show Digital Clock</span>
+            <span class="opt-sub">Display minimalist digital time in center</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleClock" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="opt-row">
+          <div>
+            <span class="opt-name">Time Format</span>
+            <span class="opt-sub">12-hour or 24-hour display</span>
+          </div>
+          <div class="segmented-control sm" id="formatSegmented">
+            <button data-value="12" class="segment-btn">12 Hours</button>
+            <button data-value="24" class="segment-btn active">24 Hours</button>
+          </div>
+        </div>
+
+        <div class="opt-row">
+          <div>
+            <span class="opt-name">Show Seconds</span>
+            <span class="opt-sub">Display ticking seconds next to time</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleSeconds">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="opt-row">
+          <div>
+            <span class="opt-name">Show Date Header</span>
+            <span class="opt-sub">Display day and date statement</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleDate" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Philosophy Quote -->
+      <section class="card">
+        <h2 class="card-title">Personal Statement / Philosophy Quote</h2>
+
+        <div class="opt-row">
+          <div>
+            <span class="opt-name">Show Quote</span>
+            <span class="opt-sub">Display an editorial statement on the New Tab page</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleQuote" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="opt-field">
+          <label for="quoteInput" class="field-label">Custom Phrase</label>
+          <input type="text" id="quoteInput" class="opt-input" value="Life was meant to be lived.">
+        </div>
+      </section>
+
+      <!-- Identity -->
+      <section class="card">
+        <h2 class="card-title">Identity & Signature</h2>
+
+        <div class="opt-field">
+          <label for="nameInput" class="field-label">Full Name</label>
+          <input type="text" id="nameInput" class="opt-input" value="Njuguna Kelvin">
+        </div>
+
+        <div class="opt-field">
+          <label for="shortInput" class="field-label">Short Identity / Monogram</label>
+          <input type="text" id="shortInput" class="opt-input" value="Vin">
+        </div>
+
+        <div class="opt-row" style="margin-top: 8px;">
+          <div>
+            <span class="opt-name">Show Corner Signature</span>
+            <span class="opt-sub">Subtle designer signature at bottom center</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleSignature" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="options-footer">
+      <p>Designed for Njuguna Kelvin (Vin) · Chrome Theme & Environment</p>
+    </footer>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

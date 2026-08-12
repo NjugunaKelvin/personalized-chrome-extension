@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "VIN — Personal Chrome Environment",
+  "version": "1.0.0",
+  "description": "Minimal, calm, and intentional personalized Chrome theme and environment for Njuguna Kelvin (Vin).",
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+  "theme": {
+    "colors": {
+      "frame": [247, 246, 242],
+      "frame_inactive": [247, 246, 242],
+      "toolbar": [239, 238, 233],
+      "ntp_background": [247, 246, 242],
+      "ntp_text": [23, 23, 23],
+      "tab_text": [23, 23, 23],
+      "tab_background_text": [111, 109, 104],
+      "bookmark_text": [23, 23, 23],
+      "omnibox_background": [255, 255, 255],
+      "omnibox_text": [23, 23, 23]
+    }
+  },
+  "chrome_url_overrides": {
+    "newtab": "newtab/index.html"
+  },
+  "action": {
+    "default_popup": "popup/index.html",
+    "default_title": "VIN Environment Preferences",
+    "default_icon": {
+      "16": "assets/icons/icon16.png",
+      "48": "assets/icons/icon48.png",
+      "128": "assets/icons/icon128.png"
+    }
+  },
+  "options_ui": {
+    "page": "options/index.html",
+    "open_in_tab": true
+  },
+  "permissions": [
+    "storage"
+  ]
+}
