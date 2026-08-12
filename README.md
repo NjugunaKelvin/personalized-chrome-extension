@@ -1,4 +1,4 @@
-# VIN — Personal Chrome Environment & Theme
+# VIN - Personal Chrome Environment & Theme
 
 <p align="center">
   <img src="assets/icons/icon128.png" width="96" alt="VIN Environment Logo" />
@@ -22,7 +22,7 @@
 > *"I created this extension to transform my daily web browser experience from a noisy, cluttered tab interface into a calm, intentional, and human-centric digital sanctuary."*  
 > — **Njuguna Kelvin (Vin)** Creator & Lead Designer
 
-Modern web browsers are often filled with visual noise, aggressive ads, and distracting widgets. **VIN** was built on the belief that software should feel like a serene architectural space — quiet, restrained, continuous, and focused.
+Modern web browsers are often filled with visual noise, aggressive ads, and distracting widgets. **VIN** was built on the belief that software should feel like a serene architectural space,  quiet, restrained, continuous, and focused.
 
 Whether you are writing code, designing interfaces, or conducting deep research, **VIN** gives you back your focus every time you press `Cmd+T`.
 

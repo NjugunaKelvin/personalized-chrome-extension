@@ -87,7 +87,13 @@ class NewTabApp {
   }
 
   async init() {
-    this.settings = await Storage.getSettings();
+    try {
+      this.settings = await Storage.getSettings();
+    } catch (e) {
+      console.warn('Storage fetch fallback to defaults', e);
+      this.settings = Storage.getDefaults();
+    }
+
     this.applySettings();
     this.syncDrawerInputs();
     this.startClock();
@@ -96,11 +102,13 @@ class NewTabApp {
     this.setupEventListeners();
     this.setupMouseParallax();
 
-    Storage.onChanged((newSettings) => {
-      this.settings = newSettings;
-      this.applySettings();
-      this.syncDrawerInputs();
-    });
+    try {
+      Storage.onChanged((newSettings) => {
+        this.settings = newSettings;
+        this.applySettings();
+        this.syncDrawerInputs();
+      });
+    } catch (e) {}
   }
 
   /**
@@ -339,7 +347,9 @@ class NewTabApp {
   async updateSetting(key, value) {
     this.settings[key] = value;
     this.applySettings();
-    await Storage.saveSettings({ [key]: value });
+    try {
+      await Storage.saveSettings({ [key]: value });
+    } catch (e) {}
   }
 
   /**
@@ -420,12 +430,14 @@ class NewTabApp {
   }
 
   openDrawer() {
+    if (!this.settingsDrawer) return;
     this.settingsDrawer.classList.add('open');
     this.settingsDrawer.setAttribute('aria-hidden', 'false');
     if (this.appWrapper) this.appWrapper.classList.add('receded');
   }
 
   closeDrawer() {
+    if (!this.settingsDrawer) return;
     this.settingsDrawer.classList.remove('open');
     this.settingsDrawer.setAttribute('aria-hidden', 'true');
     if (this.appWrapper) this.appWrapper.classList.remove('receded');
@@ -458,7 +470,7 @@ class NewTabApp {
       });
 
       document.addEventListener('click', (e) => {
-        if (!this.soundscapePill.contains(e.target)) {
+        if (this.soundscapePill && !this.soundscapePill.contains(e.target)) {
           this.soundscapePill.classList.remove('open');
         }
       });
@@ -484,7 +496,7 @@ class NewTabApp {
             };
             if (this.soundLabelText) this.soundLabelText.textContent = labelMap[sound] || 'SOUNDSCAPE';
           }
-          this.soundscapePill.classList.remove('open');
+          if (this.soundscapePill) this.soundscapePill.classList.remove('open');
         }
       });
     }
@@ -536,7 +548,7 @@ class NewTabApp {
     window.addEventListener('keydown', (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        if (this.cmdModal.classList.contains('open')) {
+        if (this.cmdModal && this.cmdModal.classList.contains('open')) {
           this.closeCommandModal();
         } else {
           this.openCommandModal();
