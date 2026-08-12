@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VIN — Environment Options</title>
   <link rel="stylesheet" href="../shared/theme.css">
+  <link rel="stylesheet" href="../assets/backgrounds/background-patterns.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,7 +15,7 @@
         <h1>VIN</h1>
         <p>Personal Chrome Environment Settings</p>
       </div>
-      <a href="../newtab/index.html" class="preview-btn" target="_blank">Open New Tab</a>
+      <a href="../newtab/index.html" class="preview-btn tactile-btn" target="_blank">Open New Tab</a>
     </header>
 
     <main class="options-main">
@@ -24,34 +25,42 @@
         <h2 class="card-title">Appearance & Theme</h2>
         <p class="card-desc">Choose between warm light mode, deep graphite dark mode, or follow your system schedule.</p>
         <div class="segmented-control" id="themeSegmented">
-          <button data-value="light" class="segment-btn">Warm Light</button>
-          <button data-value="dark" class="segment-btn">Soft Graphite Dark</button>
-          <button data-value="auto" class="segment-btn active">System Auto</button>
+          <button data-value="light" class="segment-btn tactile-btn">Warm Light</button>
+          <button data-value="dark" class="segment-btn tactile-btn">Soft Graphite Dark</button>
+          <button data-value="auto" class="segment-btn tactile-btn active">System Auto</button>
         </div>
       </section>
 
       <!-- Backgrounds -->
       <section class="card">
         <h2 class="card-title">Background Environment</h2>
-        <p class="card-desc">Select an abstract, minimal wallpaper pattern.</p>
+        <p class="card-desc">Select an abstract wallpaper pattern or curated architecture photography.</p>
         <div class="bg-options-grid" id="bgGrid">
-          <button data-bg="warm-paper" class="bg-card active">
+          <button data-bg="arch-1" class="bg-card tactile-btn active">
+            <div class="bg-preview" style="background-image: url('../assets/backgrounds/arch-1.png'); background-size: cover;"></div>
+            <span>Concrete</span>
+          </button>
+          <button data-bg="city-1" class="bg-card tactile-btn">
+            <div class="bg-preview" style="background-image: url('../assets/backgrounds/city-1.png'); background-size: cover;"></div>
+            <span>Misty City</span>
+          </button>
+          <button data-bg="arch-2" class="bg-card tactile-btn">
+            <div class="bg-preview" style="background-image: url('../assets/backgrounds/arch-2.png'); background-size: cover;"></div>
+            <span>Shadows</span>
+          </button>
+          <button data-bg="arch-3" class="bg-card tactile-btn">
+            <div class="bg-preview" style="background-image: url('../assets/backgrounds/arch-3.png'); background-size: cover;"></div>
+            <span>Courtyard</span>
+          </button>
+          <button data-bg="warm-paper" class="bg-card tactile-btn">
             <div class="bg-preview bg-preview-paper"></div>
             <span>Warm Paper</span>
           </button>
-          <button data-bg="quiet-stone" class="bg-card">
-            <div class="bg-preview bg-preview-stone"></div>
-            <span>Quiet Stone</span>
-          </button>
-          <button data-bg="soft-graphite" class="bg-card">
+          <button data-bg="soft-graphite" class="bg-card tactile-btn">
             <div class="bg-preview bg-preview-graphite"></div>
             <span>Soft Graphite</span>
           </button>
-          <button data-bg="architectural" class="bg-card">
-            <div class="bg-preview bg-preview-architectural"></div>
-            <span>Architectural</span>
-          </button>
-          <button data-bg="pure" class="bg-card">
+          <button data-bg="pure" class="bg-card tactile-btn">
             <div class="bg-preview bg-preview-pure"></div>
             <span>Pure Blank</span>
           </button>
@@ -79,8 +88,8 @@
             <span class="opt-sub">12-hour or 24-hour display</span>
           </div>
           <div class="segmented-control sm" id="formatSegmented">
-            <button data-value="12" class="segment-btn">12 Hours</button>
-            <button data-value="24" class="segment-btn active">24 Hours</button>
+            <button data-value="12" class="segment-btn tactile-btn">12 Hours</button>
+            <button data-value="24" class="segment-btn tactile-btn active">24 Hours</button>
           </div>
         </div>
 

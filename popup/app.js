@@ -58,7 +58,7 @@ class PopupApp {
       btns.forEach(btn => btn.classList.toggle('active', btn.dataset.bg === this.settings.background));
     }
 
-    const dimVal = typeof this.settings.bgDim !== 'undefined' ? this.settings.bgDim : 15;
+    const dimVal = typeof this.settings.bgDim !== 'undefined' ? this.settings.bgDim : 22;
     const blurVal = typeof this.settings.bgBlur !== 'undefined' ? this.settings.bgBlur : 0;
 
     if (this.popupDimRange) this.popupDimRange.value = dimVal;
@@ -89,6 +89,42 @@ class PopupApp {
     await Storage.saveSettings({ [key]: value });
   }
 
+  compressImageFile(file, maxDimension = 1920, quality = 0.85) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          resolve(compressedDataUrl);
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
   setupListeners() {
     if (this.themeSegmented) {
       this.themeSegmented.addEventListener('click', (e) => {
@@ -105,16 +141,16 @@ class PopupApp {
     }
 
     if (this.popupCustomBgInput) {
-      this.popupCustomBgInput.addEventListener('change', (e) => {
+      this.popupCustomBgInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (file) {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            const dataUrl = event.target.result;
-            this.updateSetting('customBgData', dataUrl);
-            this.updateSetting('background', 'custom');
-          };
-          reader.readAsDataURL(file);
+          try {
+            const compressedDataUrl = await this.compressImageFile(file);
+            await this.updateSetting('customBgData', compressedDataUrl);
+            await this.updateSetting('background', 'custom');
+          } catch (err) {
+            console.error('Image compression error', err);
+          }
         }
       });
     }
@@ -148,8 +184,8 @@ class PopupApp {
     if (this.toggleDate) {
       this.toggleDate.addEventListener('change', (e) => this.updateSetting('showDate', e.target.checked));
     }
-    if (this.toggleQuote) {
-      this.toggleQuote.addEventListener('change', (e) => this.updateSetting('showQuote', e.target.checked));
+    if (this.toggleShowQuote) {
+      this.toggleShowQuote.addEventListener('change', (e) => this.updateSetting('showQuote', e.target.checked));
     }
     if (this.quoteInput) {
       this.quoteInput.addEventListener('input', (e) => this.updateSetting('quoteText', e.target.value));

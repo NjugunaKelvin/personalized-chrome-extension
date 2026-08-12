@@ -27,7 +27,7 @@
   pointer-events: none;
   z-index: 1;
   background-color: #000000;
-  opacity: var(--bg-dim-opacity, 0.18);
+  opacity: var(--bg-dim-opacity, 0.22);
   transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -82,7 +82,13 @@
   opacity: 0.95;
 }
 
-/* 9. User Uploaded Custom Image Wallpaper */
+/* 9. Japanese Courtyard Photo Wallpaper */
+[data-background="arch-3"] .bg-layer {
+  background-image: url('arch-3.png');
+  opacity: 0.95;
+}
+
+/* 10. User Uploaded Custom Image Wallpaper */
 [data-background="custom"] .bg-layer {
   background-image: var(--custom-bg-url, none);
   opacity: 0.98;

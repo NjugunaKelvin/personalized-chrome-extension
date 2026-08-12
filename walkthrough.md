@@ -1,35 +1,23 @@
-# Walkthrough — VIN Personal Chrome Environment (v1.2.0 Fluid Motion & Bold Typography)
+# Walkthrough — VIN Personal Chrome Environment (v1.3.1 Wallpaper Click Fix)
 
-We have updated **VIN** with default architectural photo wallpaper (`arch-1` Concrete Minimalism), bolder typography weights, staggered entrance animations, and ambient mouse parallax.
+We have resolved the wallpaper gallery card click issue by updating the event selector in `newtab/app.js` to target `.wallpaper-card` elements, and verified real-time wallpaper switching across all photo options.
 
 ---
 
-## 📸 Visual Demonstration
+## 📸 Verified Click Test Demonstration
 
 ````carousel
-![Default Photo Wallpaper & Bold Typography](file:///C:/Users/Vin/.gemini/antigravity-ide/brain/33738adc-69f4-4bdc-849f-a9ffb2301914/main_page_default_1786545662660.png)
+![Misty City Wallpaper Active after Clicking Card](file:///C:/Users/Vin/.gemini/antigravity-ide/brain/33738adc-69f4-4bdc-849f-a9ffb2301914/misty_city_bg_full_1786546782221.png)
 <!-- slide -->
-![Spatial Receding Stack Depth Effect & Preferences](file:///C:/Users/Vin/.gemini/antigravity-ide/brain/33738adc-69f4-4bdc-849f-a9ffb2301914/settings_drawer_open_1786545690927.png)
+![Wallpaper Gallery Cards inside Sidebar Drawer](file:///C:/Users/Vin/.gemini/antigravity-ide/brain/33738adc-69f4-4bdc-849f-a9ffb2301914/open_drawer_v1_2_0_1786546279613.png)
 <!-- slide -->
-![Floating Command Search Modal (Cmd+K)](file:///C:/Users/Vin/.gemini/antigravity-ide/brain/33738adc-69f4-4bdc-849f-a9ffb2301914/command_search_modal_1786545126558.png)
+![High Contrast Text & Glass Capsule Header](file:///C:/Users/Vin/.gemini/antigravity-ide/brain/33738adc-69f4-4bdc-849f-a9ffb2301914/main_page_v1_2_0_1786546248076.png)
 ````
 
 ---
 
-## 🌟 What's New in v1.2.0
+## 🛠 Fix Details
 
-1. **Default High-Resolution Photo Wallpaper**:
-   - Opens immediately with **Concrete Minimalism** (`arch-1.png`) by default.
-   - Pre-loaded with a balanced `18%` dim overlay to ensure zero flash of unstyled content and perfect contrast.
-
-2. **Bolder Typography Hierarchy**:
-   - **Greeting Text**: Font-weight increased to `600` (semibold) with crisp drop shadow.
-   - **Digital Clock**: Font-weight increased to `600` (bold, crisp numbers).
-   - **Date Statement**: Font-weight increased to `700` (bold uppercase tracking).
-   - **Personal Quote & Brand Mark**: Font-weight increased to `600` / `700`.
-
-3. **Fluid Staggered Entrance Animations**:
-   - Staggered entrance keyframe sequence (`@keyframes fluidEntrance`) so top navigation, greeting, date, clock, quote, and signature glide into view smoothly upon opening a new tab.
-
-4. **Ambient 3D Cursor Parallax**:
-   - Background image responds to mouse movement with subtle physics-based 3D parallax shifts (`translate3d`), bringing the architectural photography to life.
+1. **Wallpaper Card Selector Alignment**:
+   - Updated `syncDrawerInputs()` and the click event listener in `newtab/app.js` to target `.wallpaper-card` (matching the HTML class).
+   - Clicking any thumbnail card (**Concrete**, **Misty City**, **Shadows**, **Courtyard**, **Warm Paper**, **Graphite**, **Pure**) instantly changes the active background and updates storage.

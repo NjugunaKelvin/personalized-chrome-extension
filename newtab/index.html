@@ -15,36 +15,29 @@
   <div class="bg-layer" id="bgLayer" aria-hidden="true"></div>
   <div class="bg-dim-overlay" id="bgDimOverlay" aria-hidden="true"></div>
 
-  <!-- Spatial Application Wrapper (recodes into spatial depth when drawer opens) -->
+  <!-- Spatial Application Wrapper (recedes into spatial depth when drawer opens) -->
   <div class="spatial-app-wrapper" id="appWrapper">
     <!-- Main Editorial Container -->
     <main class="newtab-container" id="mainContainer">
 
       <!-- Top Navigation / Header -->
       <header class="top-bar">
-        <div class="brand-mark" id="topBrandMark" title="VIN Personal Chrome Environment">
-          <span class="brand-text">VIN</span>
-        </div>
+        <!-- Top Left Clean Empty Breathing Space -->
+        <div class="top-left-spacer"></div>
 
-        <div class="top-actions">
+        <!-- Top Right Glass Action Capsule -->
+        <div class="glass-action-capsule">
           <!-- Command Bar Trigger (Cmd+K) -->
           <button class="icon-trigger tactile-btn" id="cmdBarBtn" aria-label="Open Command Search (Cmd+K)" title="Search (Cmd+K)">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
           </button>
 
-          <!-- Focus Mode Toggle (F) -->
-          <button class="icon-trigger tactile-btn" id="focusModeBtn" aria-label="Toggle Focus Mode (Press F)" title="Focus Mode (F)">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-            </svg>
-          </button>
-
           <!-- Settings Drawer Trigger -->
           <button class="icon-trigger tactile-btn" id="settingsBtn" aria-label="Open Environment Settings" title="Settings">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="3"></circle>
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
             </svg>
@@ -72,13 +65,29 @@
         </blockquote>
       </section>
 
-      <!-- Bottom Signature Bar -->
+      <!-- Split Bottom Navigation & Status Bar -->
       <footer class="bottom-bar">
+        <!-- Bottom Left: Dynamic Local Browser Timezone -->
+        <div class="bottom-left-info" id="bottomLeftInfo">
+          <span class="info-dot"></span>
+          <span class="info-text" id="timeZoneText">LOCAL TIME</span>
+        </div>
+
+        <!-- Bottom Center Signature -->
         <div class="signature-mark" id="bottomSignature">
           <span class="sig-name">VIN</span>
           <span class="sig-dot">·</span>
-          <span class="sig-environment">PERSONAL ENVIRONMENT</span>
+          <span class="sig-environment">ENVIRONMENT</span>
         </div>
+
+        <!-- Bottom Right: Quick Navigation Link Pills -->
+        <nav class="bottom-right-nav" id="bottomRightNav">
+          <a href="https://github.com" target="_blank" class="nav-pill tactile-btn" title="Open GitHub">GITHUB</a>
+          <a href="https://linear.app" target="_blank" class="nav-pill tactile-btn" title="Open Linear">LINEAR</a>
+          <a href="https://figma.com" target="_blank" class="nav-pill tactile-btn" title="Open Figma">FIGMA</a>
+          <a href="https://notion.so" target="_blank" class="nav-pill tactile-btn" title="Open Notion">NOTION</a>
+          <a href="https://x.com" target="_blank" class="nav-pill tactile-btn" title="Open X">X</a>
+        </nav>
       </footer>
     </main>
   </div>
@@ -128,45 +137,40 @@
           </div>
         </section>
 
-        <!-- Background Wallpaper Selector -->
+        <!-- Wallpaper Image Collection Grid -->
         <section class="setting-group">
-          <label class="setting-label">Background & Wallpapers</label>
+          <label class="setting-label">Wallpaper Gallery</label>
 
-          <!-- Pattern & Photo Presets -->
-          <div class="bg-options-grid" id="bgOptionsGrid">
-            <button data-bg="warm-paper" class="bg-option-btn tactile-btn active">
-              <span class="bg-preview bg-preview-paper"></span>
-              <span class="bg-title">Warm Paper</span>
+          <div class="wallpaper-photo-grid" id="bgOptionsGrid">
+            <!-- 1. Concrete -->
+            <button data-bg="arch-1" class="wallpaper-card tactile-btn active">
+              <span class="wallpaper-thumb" style="background-image: url('../assets/backgrounds/arch-1.png');"></span>
+              <span class="wallpaper-title">Concrete</span>
             </button>
-            <button data-bg="quiet-stone" class="bg-option-btn tactile-btn">
-              <span class="bg-preview bg-preview-stone"></span>
-              <span class="bg-title">Quiet Stone</span>
+            <!-- 2. Misty City -->
+            <button data-bg="city-1" class="wallpaper-card tactile-btn">
+              <span class="wallpaper-thumb" style="background-image: url('../assets/backgrounds/city-1.png');"></span>
+              <span class="wallpaper-title">Misty City</span>
             </button>
-            <button data-bg="soft-graphite" class="bg-option-btn tactile-btn">
-              <span class="bg-preview bg-preview-graphite"></span>
-              <span class="bg-title">Soft Graphite</span>
+            <!-- 3. Shadows -->
+            <button data-bg="arch-2" class="wallpaper-card tactile-btn">
+              <span class="wallpaper-thumb" style="background-image: url('../assets/backgrounds/arch-2.png');"></span>
+              <span class="wallpaper-title">Shadows</span>
             </button>
-            <button data-bg="architectural" class="bg-option-btn tactile-btn">
-              <span class="bg-preview bg-preview-architectural"></span>
-              <span class="bg-title">Architectural</span>
+            <!-- 4. Courtyard -->
+            <button data-bg="arch-3" class="wallpaper-card tactile-btn">
+              <span class="wallpaper-thumb" style="background-image: url('../assets/backgrounds/arch-3.png');"></span>
+              <span class="wallpaper-title">Courtyard</span>
             </button>
-
-            <!-- Photo Wallpapers -->
-            <button data-bg="arch-1" class="bg-option-btn tactile-btn">
-              <span class="bg-preview bg-preview-photo" style="background-image: url('../backgrounds/arch-1.png');"></span>
-              <span class="bg-title">Concrete</span>
+            <!-- 5. Warm Paper -->
+            <button data-bg="warm-paper" class="wallpaper-card tactile-btn">
+              <span class="wallpaper-thumb bg-preview-paper"></span>
+              <span class="wallpaper-title">Warm Paper</span>
             </button>
-            <button data-bg="city-1" class="bg-option-btn tactile-btn">
-              <span class="bg-preview bg-preview-photo" style="background-image: url('../backgrounds/city-1.png');"></span>
-              <span class="bg-title">Misty City</span>
-            </button>
-            <button data-bg="arch-2" class="bg-option-btn tactile-btn">
-              <span class="bg-preview bg-preview-photo" style="background-image: url('../backgrounds/arch-2.png');"></span>
-              <span class="bg-title">Shadows</span>
-            </button>
-            <button data-bg="pure" class="bg-option-btn tactile-btn">
-              <span class="bg-preview bg-preview-pure"></span>
-              <span class="bg-title">Pure Blank</span>
+            <!-- 6. Soft Graphite -->
+            <button data-bg="soft-graphite" class="wallpaper-card tactile-btn">
+              <span class="wallpaper-thumb bg-preview-graphite"></span>
+              <span class="wallpaper-title">Graphite</span>
             </button>
           </div>
 
@@ -188,9 +192,9 @@
           <div class="slider-row">
             <div class="slider-header">
               <span class="slider-title">Dim Overlay</span>
-              <span class="slider-val" id="dimValText">15%</span>
+              <span class="slider-val" id="dimValText">22%</span>
             </div>
-            <input type="range" id="dimRange" min="0" max="80" value="15" class="ios-slider">
+            <input type="range" id="dimRange" min="0" max="80" value="22" class="ios-slider">
           </div>
 
           <!-- Blur Slider -->

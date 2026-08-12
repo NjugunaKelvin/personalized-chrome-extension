@@ -15,7 +15,6 @@ class NewTabApp {
   initElements() {
     // Spatial App Wrapper & Editorial Elements
     this.appWrapper = document.getElementById('appWrapper');
-    this.topBrandMark = document.getElementById('topBrandMark');
     this.greetingText = document.getElementById('greetingText');
     this.dateText = document.getElementById('dateText');
     this.clockContainer = document.getElementById('clockContainer');
@@ -24,6 +23,7 @@ class NewTabApp {
     this.quoteContainer = document.getElementById('quoteContainer');
     this.quoteText = document.getElementById('quoteText');
     this.bottomSignature = document.getElementById('bottomSignature');
+    this.timeZoneText = document.getElementById('timeZoneText');
 
     // Action Triggers
     this.settingsBtn = document.getElementById('settingsBtn');
@@ -75,6 +75,7 @@ class NewTabApp {
     this.applySettings();
     this.syncDrawerInputs();
     this.startClock();
+    this.updateTimeZone();
     this.setupEventListeners();
     this.setupMouseParallax();
 
@@ -105,6 +106,21 @@ class NewTabApp {
   }
 
   /**
+   * Dynamic Browser Timezone Detector
+   */
+  updateTimeZone() {
+    if (!this.timeZoneText) return;
+    try {
+      const rawZone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'LOCAL TIME';
+      const parts = rawZone.split('/');
+      const city = parts[parts.length - 1].replace(/_/g, ' ').toUpperCase();
+      this.timeZoneText.textContent = city ? `${city} · LOCAL` : 'LOCAL TIME';
+    } catch (e) {
+      this.timeZoneText.textContent = 'LOCAL TIME';
+    }
+  }
+
+  /**
    * Apply settings to DOM and CSS custom variables
    */
   applySettings() {
@@ -120,7 +136,6 @@ class NewTabApp {
       showDate,
       showQuote,
       quoteText,
-      userName,
       shortName,
       showSignature,
       scratchpadText,
@@ -132,7 +147,7 @@ class NewTabApp {
     document.body.setAttribute('data-background', background || 'arch-1');
 
     // 2. Custom Background Data URL
-    if (customBgData) {
+    if (background === 'custom' && customBgData) {
       document.body.style.setProperty('--custom-bg-url', `url("${customBgData}")`);
       if (this.clearCustomBgBtn) this.clearCustomBgBtn.style.display = 'block';
     } else {
@@ -141,7 +156,7 @@ class NewTabApp {
     }
 
     // 3. Dim Overlay & Blur Sliders
-    const dimVal = typeof bgDim !== 'undefined' ? bgDim : 18;
+    const dimVal = typeof bgDim !== 'undefined' ? bgDim : 22;
     const blurVal = typeof bgBlur !== 'undefined' ? bgBlur : 0;
     document.body.style.setProperty('--bg-dim-opacity', (dimVal / 100).toString());
     document.body.style.setProperty('--bg-blur-val', `${blurVal}px`);
@@ -156,12 +171,8 @@ class NewTabApp {
       document.body.classList.remove('focus-mode');
     }
 
-    // 5. Identity & Greeting
+    // 5. Greeting
     this.updateGreeting(shortName || 'Vin');
-    if (this.topBrandMark) {
-      const brandText = this.topBrandMark.querySelector('.brand-text');
-      if (brandText) brandText.textContent = (shortName || 'VIN').toUpperCase();
-    }
 
     // 6. Clock & Date
     if (this.clockContainer) {
@@ -267,11 +278,11 @@ class NewTabApp {
     }
 
     if (this.bgOptionsGrid) {
-      const btns = this.bgOptionsGrid.querySelectorAll('.bg-option-btn');
+      const btns = this.bgOptionsGrid.querySelectorAll('.wallpaper-card');
       btns.forEach(btn => btn.classList.toggle('active', btn.dataset.bg === this.settings.background));
     }
 
-    if (this.dimRange) this.dimRange.value = typeof this.settings.bgDim !== 'undefined' ? this.settings.bgDim : 18;
+    if (this.dimRange) this.dimRange.value = typeof this.settings.bgDim !== 'undefined' ? this.settings.bgDim : 22;
     if (this.blurRange) this.blurRange.value = typeof this.settings.bgBlur !== 'undefined' ? this.settings.bgBlur : 0;
 
     if (this.toggleShowClock) this.toggleShowClock.checked = !!this.settings.showClock;
@@ -294,6 +305,46 @@ class NewTabApp {
     this.settings[key] = value;
     this.applySettings();
     await Storage.saveSettings({ [key]: value });
+  }
+
+  /**
+   * HTML5 Canvas Image Downscaling & Compression Helper
+   * Downscales large user images to max 1920px width & 85% JPEG quality
+   */
+  compressImageFile(file, maxDimension = 1920, quality = 0.85) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          resolve(compressedDataUrl);
+        };
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
   }
 
   openDrawer() {
@@ -399,24 +450,25 @@ class NewTabApp {
 
     if (this.bgOptionsGrid) {
       this.bgOptionsGrid.addEventListener('click', (e) => {
-        const btn = e.target.closest('.bg-option-btn');
+        const btn = e.target.closest('.wallpaper-card');
         if (btn && btn.dataset.bg) {
           this.updateSetting('background', btn.dataset.bg);
         }
       });
     }
 
+    // Optimized Custom Background Image Uploader
     if (this.customBgInput) {
-      this.customBgInput.addEventListener('change', (e) => {
+      this.customBgInput.addEventListener('change', async (e) => {
         const file = e.target.files[0];
         if (file) {
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            const dataUrl = event.target.result;
-            this.updateSetting('customBgData', dataUrl);
-            this.updateSetting('background', 'custom');
-          };
-          reader.readAsDataURL(file);
+          try {
+            const compressedDataUrl = await this.compressImageFile(file);
+            await this.updateSetting('customBgData', compressedDataUrl);
+            await this.updateSetting('background', 'custom');
+          } catch (err) {
+            console.error('Image compression error', err);
+          }
         }
       });
     }

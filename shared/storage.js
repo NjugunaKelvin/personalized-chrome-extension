@@ -1,12 +1,13 @@
 /**
  * VIN Chrome Environment - Shared Storage Helper
- * Wraps chrome.storage.sync with fallback to localStorage.
+ * Wraps chrome.storage.sync (for lightweight settings) and chrome.storage.local
+ * (for high-capacity custom image data) with fallback to localStorage.
  */
 
 const DEFAULT_SETTINGS = {
   theme: 'auto',              // 'light' | 'dark' | 'auto'
   background: 'arch-1',       // Default photo wallpaper (Concrete Minimalism)
-  bgDim: 18,                  // Balanced 18% dim overlay for photo readability
+  bgDim: 22,                  // Optimized 22% dim overlay for perfect text contrast
   bgBlur: 0,                  // Backdrop blur 0 - 24px
   customBgData: '',           // Base64 data URL for user uploaded image
   clockFormat: '24',          // '12' | '24'
@@ -22,7 +23,8 @@ const DEFAULT_SETTINGS = {
   enableFocusMode: false      // Focus mode active status
 };
 
-const STORAGE_KEY = 'vin_chrome_settings';
+const STORAGE_KEY_SYNC = 'vin_chrome_settings';
+const STORAGE_KEY_LOCAL = 'vin_custom_bg';
 
 export const Storage = {
   /**
@@ -33,20 +35,28 @@ export const Storage = {
   },
 
   /**
-   * Get settings asynchronously
+   * Get settings asynchronously (merges sync settings & local custom image data)
    */
   async getSettings() {
     return new Promise((resolve) => {
       if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
-        chrome.storage.sync.get(STORAGE_KEY, (result) => {
-          const stored = result && result[STORAGE_KEY] ? result[STORAGE_KEY] : {};
-          resolve({ ...DEFAULT_SETTINGS, ...stored });
+        chrome.storage.sync.get(STORAGE_KEY_SYNC, (syncRes) => {
+          const syncData = syncRes && syncRes[STORAGE_KEY_SYNC] ? syncRes[STORAGE_KEY_SYNC] : {};
+          if (chrome.storage.local) {
+            chrome.storage.local.get(STORAGE_KEY_LOCAL, (localRes) => {
+              const customBgData = localRes && localRes[STORAGE_KEY_LOCAL] ? localRes[STORAGE_KEY_LOCAL] : '';
+              resolve({ ...DEFAULT_SETTINGS, ...syncData, customBgData });
+            });
+          } else {
+            resolve({ ...DEFAULT_SETTINGS, ...syncData });
+          }
         });
       } else {
         try {
-          const local = localStorage.getItem(STORAGE_KEY);
+          const local = localStorage.getItem(STORAGE_KEY_SYNC);
           const parsed = local ? JSON.parse(local) : {};
-          resolve({ ...DEFAULT_SETTINGS, ...parsed });
+          const customBgData = localStorage.getItem(STORAGE_KEY_LOCAL) || '';
+          resolve({ ...DEFAULT_SETTINGS, ...parsed, customBgData });
         } catch (e) {
           resolve({ ...DEFAULT_SETTINGS });
         }
@@ -61,14 +71,26 @@ export const Storage = {
     const current = await this.getSettings();
     const updated = { ...current, ...newSettings };
 
+    // Separate customBgData from sync payload to avoid 8KB quota error!
+    const { customBgData, ...syncPayload } = updated;
+
     return new Promise((resolve) => {
       if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
-        chrome.storage.sync.set({ [STORAGE_KEY]: updated }, () => {
-          resolve(updated);
+        chrome.storage.sync.set({ [STORAGE_KEY_SYNC]: syncPayload }, () => {
+          if (typeof newSettings.customBgData !== 'undefined' && chrome.storage.local) {
+            chrome.storage.local.set({ [STORAGE_KEY_LOCAL]: newSettings.customBgData }, () => {
+              resolve(updated);
+            });
+          } else {
+            resolve(updated);
+          }
         });
       } else {
         try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+          localStorage.setItem(STORAGE_KEY_SYNC, JSON.stringify(syncPayload));
+          if (typeof newSettings.customBgData !== 'undefined') {
+            localStorage.setItem(STORAGE_KEY_LOCAL, newSettings.customBgData);
+          }
         } catch (e) {
           console.warn('LocalStorage save error', e);
         }
@@ -83,9 +105,15 @@ export const Storage = {
    */
   onChanged(callback) {
     if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.onChanged) {
-      chrome.storage.onChanged.addListener((changes, areaName) => {
-        if (areaName === 'sync' && changes[STORAGE_KEY]) {
-          callback(changes[STORAGE_KEY].newValue);
+      chrome.storage.onChanged.addListener(async (changes, areaName) => {
+        if (areaName === 'sync' && changes[STORAGE_KEY_SYNC]) {
+          const newSync = changes[STORAGE_KEY_SYNC].newValue;
+          const current = await this.getSettings();
+          callback({ ...current, ...newSync });
+        } else if (areaName === 'local' && changes[STORAGE_KEY_LOCAL]) {
+          const newCustomBg = changes[STORAGE_KEY_LOCAL].newValue;
+          const current = await this.getSettings();
+          callback({ ...current, customBgData: newCustomBg });
         }
       });
     } else {
